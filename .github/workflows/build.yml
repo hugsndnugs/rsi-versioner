@@ -1,0 +1,42 @@
+# Primary GitHub Actions documentation for this workflow:
+# - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# - https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# - https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
+# - https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  sdist-wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install build
+        run: pip install build
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Upload distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/*
+          if-no-files-found: error
