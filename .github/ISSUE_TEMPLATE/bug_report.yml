@@ -1,0 +1,34 @@
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
+
+name: Bug report
+description: Report unexpected behavior
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: What did you expect vs what actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Game root path shape (redact personal paths if needed), dry run on/off, OS version.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: rsi-versioner version
+      description: Output of `python -c "import rsi_versioner; print(rsi_versioner.__version__)"` or note if unknown.
+    validations:
+      required: false
