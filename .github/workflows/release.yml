@@ -107,13 +107,13 @@ jobs:
       contents: write
     steps:
       - name: Download source distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: release-py-dist
           path: release-assets
 
       - name: Download Windows distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: release-windows-artifacts
           path: release-assets
@@ -134,7 +134,7 @@ jobs:
       contents: read
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: release-py-dist
           path: dist
