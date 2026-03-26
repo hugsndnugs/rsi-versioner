@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,34 +37,97 @@ jobs:
       - name: Build sdist and wheel
         run: python -m build
 
-      - name: Upload distribution artifacts
+      - name: Upload source distribution artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: release-dist
+          name: release-py-dist
+          path: dist/*
+          if-no-files-found: error
+
+      - name: Install package (editable) with dev deps
+        run: pip install -e ".[dev]"
+
+      - name: Run tests
+        run: pytest -q --tb=short
+
+  windows-artifacts:
+    needs: verify
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package + build tools
+        shell: pwsh
+        run: python -m pip install -e ".[build]"
+
+      - name: Build portable executable
+        shell: pwsh
+        run: ./scripts/build_portable.ps1
+
+      - name: Install Inno Setup compiler
+        shell: pwsh
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer executable
+        shell: pwsh
+        run: ./scripts/build_installer.ps1
+
+      - name: Smoke test portable executable launches
+        shell: pwsh
+        run: |
+          $proc = Start-Process -FilePath ".\dist\rsi-versioner.exe" -PassThru
+          Start-Sleep -Seconds 3
+          if ($null -eq $proc) { throw "Failed to start portable executable." }
+          Stop-Process -Id $proc.Id -Force
+
+      - name: Create SHA256 checksums
+        shell: pwsh
+        run: |
+          Get-FileHash dist\rsi-versioner.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  rsi-versioner.exe" } | Set-Content -Encoding ascii dist\SHA256SUMS.txt
+          Get-FileHash dist\rsi-versioner-setup.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  rsi-versioner-setup.exe" } | Add-Content -Encoding ascii dist\SHA256SUMS.txt
+
+      - name: Upload Windows release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-windows-artifacts
           path: dist/*
           if-no-files-found: error
 
   github-release:
-    needs: build
+    needs: [verify, windows-artifacts]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Download distribution artifacts
+      - name: Download source distribution artifacts
         uses: actions/download-artifact@v4
         with:
-          name: release-dist
-          path: dist
+          name: release-py-dist
+          path: release-assets
+
+      - name: Download Windows distribution artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-windows-artifacts
+          path: release-assets
 
       - name: Create GitHub Release and upload assets
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*
+          body_path: .github/release-template.md
+          files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   pypi:
-    needs: build
+    needs: verify
     if: secrets.PYPI_API_TOKEN != ''
     runs-on: ubuntu-latest
     permissions:
@@ -73,7 +136,7 @@ jobs:
       - name: Download distribution artifacts
         uses: actions/download-artifact@v4
         with:
-          name: release-dist
+          name: release-py-dist
           path: dist
 
       - name: Publish to PyPI

@@ -16,6 +16,9 @@ dependencies = [
 dev = [
     "pytest>=7.0",
 ]
+build = [
+    "pyinstaller>=6.0",
+]
 
 [project.scripts]
 rsi-versioner-gui = "rsi_versioner.gui:run_gui"

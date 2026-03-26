@@ -4,6 +4,22 @@
 
 Small Python GUI for swapping which Star Citizen build folder the RSI Launcher uses by renaming the **LIVE** and **PTU** directories under your **game root** (the folder that contains those two names as direct children).
 
+## v1 Quick start (Windows)
+
+If you downloaded the repo or release bundle, double-click:
+
+- `Run-RSI-Versioner.cmd`
+
+That launcher calls `scripts/Install-or-Run.ps1`, which installs RSI Versioner if needed and then opens the app.
+
+## Downloads (v1+)
+
+Each GitHub release publishes:
+
+- `rsi-versioner.exe` (portable single-file app)
+- `rsi-versioner-setup.exe` (installer)
+- `SHA256SUMS.txt` (checksums)
+
 ## Install
 
 ```bash
@@ -24,10 +40,17 @@ Or:
 python -m rsi_versioner
 ```
 
+Portable release artifact:
+
+```powershell
+.\rsi-versioner.exe
+```
+
 ## Defaults and permissions
 
 - **Default game root (Windows):** `%ProgramFiles%\Roberts Space Industries\StarCitizen`
 - If the game lives under `Program Files`, renames may require running the app **as Administrator**, or set the game root to a library folder your user owns.
+- If SmartScreen warns on first launch of a downloaded artifact, verify `SHA256SUMS.txt` from the release and allow the app once.
 
 ## Safety: allowlist (wildcard patterns)
 
@@ -67,4 +90,11 @@ Operations (preview, swap, undo) are appended to a **rotating log file** under t
 
 ```bash
 pytest
+```
+
+## Build release artifacts locally (Windows)
+
+```powershell
+.\scripts\build_portable.ps1
+.\scripts\build_installer.ps1
 ```

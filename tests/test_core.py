@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -126,3 +127,25 @@ def test_swap_both_folders_refused(tmp_path: Path) -> None:
     pat = str(resolve_game_root(game)).replace("\\", "/")
     out = swap_live_ptu(game, [pat], dry_run=True)
     assert not out.ok
+
+
+def test_swap_permission_error_returns_friendly_message(tmp_path: Path) -> None:
+    game = tmp_path / "Roberts Space Industries" / "StarCitizen"
+    game.mkdir(parents=True)
+    (game / "LIVE").mkdir()
+    pat = str(resolve_game_root(game)).replace("\\", "/")
+    with patch("pathlib.Path.rename", side_effect=PermissionError("denied")):
+        out = swap_live_ptu(game, [pat], dry_run=False)
+    assert not out.ok
+    assert "Permission denied" in out.message
+
+
+def test_swap_rename_oserror_is_reported(tmp_path: Path) -> None:
+    game = tmp_path / "Roberts Space Industries" / "StarCitizen"
+    game.mkdir(parents=True)
+    (game / "PTU").mkdir()
+    pat = str(resolve_game_root(game)).replace("\\", "/")
+    with patch("pathlib.Path.rename", side_effect=OSError("disk error")):
+        out = swap_live_ptu(game, [pat], dry_run=False)
+    assert not out.ok
+    assert "Rename failed" in out.message

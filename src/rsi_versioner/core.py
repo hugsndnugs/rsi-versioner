@@ -205,25 +205,16 @@ def swap_live_ptu(
         )
     if det.state == LivePtuState.LIVE_ONLY:
         assert det.live_path is not None
+        src = det.live_path
         dest = root / "PTU"
         action = "rename LIVE -> PTU"
-        if dry_run:
-            return SwapOutcome(
-                ok=True,
-                message=f"Would {action} at {root}",
-                dry_run=True,
-                action=action,
-            )
-        det.live_path.rename(dest)
-        return SwapOutcome(
-            ok=True,
-            message=f"Renamed LIVE to PTU under {root}",
-            dry_run=False,
-            action=action,
-        )
-    assert det.state == LivePtuState.PTU_ONLY and det.ptu_path is not None
-    dest = root / "LIVE"
-    action = "rename PTU -> LIVE"
+        success_message = f"Renamed LIVE to PTU under {root}"
+    else:
+        assert det.state == LivePtuState.PTU_ONLY and det.ptu_path is not None
+        src = det.ptu_path
+        dest = root / "LIVE"
+        action = "rename PTU -> LIVE"
+        success_message = f"Renamed PTU to LIVE under {root}"
     if dry_run:
         return SwapOutcome(
             ok=True,
@@ -231,10 +222,28 @@ def swap_live_ptu(
             dry_run=True,
             action=action,
         )
-    det.ptu_path.rename(dest)
+    try:
+        src.rename(dest)
+    except PermissionError:
+        return SwapOutcome(
+            ok=False,
+            message=(
+                "Permission denied while renaming game folders. "
+                "Try running as Administrator or choose a game root your user can modify."
+            ),
+            dry_run=False,
+            action=action,
+        )
+    except OSError as e:
+        return SwapOutcome(
+            ok=False,
+            message=f"Rename failed: {e}",
+            dry_run=False,
+            action=action,
+        )
     return SwapOutcome(
         ok=True,
-        message=f"Renamed PTU to LIVE under {root}",
+        message=success_message,
         dry_run=False,
         action=action,
     )
