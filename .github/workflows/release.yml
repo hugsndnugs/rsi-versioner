@@ -21,12 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
@@ -38,7 +38,7 @@ jobs:
         run: python -m build
 
       - name: Upload source distribution artifacts
-        uses: actions/setup-python@v7
+        uses: actions/upload-artifact@v4
         with:
           name: release-py-dist
           path: dist/*
@@ -55,10 +55,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
@@ -94,7 +94,7 @@ jobs:
           Get-FileHash dist\rsi-versioner-setup.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  rsi-versioner-setup.exe" } | Add-Content -Encoding ascii dist\SHA256SUMS.txt
 
       - name: Upload Windows release artifacts
-        uses: actions/setup-python@v7
+        uses: actions/upload-artifact@v4
         with:
           name: release-windows-artifacts
           path: dist/*
@@ -107,13 +107,13 @@ jobs:
       contents: write
     steps:
       - name: Download source distribution artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           name: release-py-dist
           path: release-assets
 
       - name: Download Windows distribution artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           name: release-windows-artifacts
           path: release-assets
@@ -128,13 +128,15 @@ jobs:
 
   pypi:
     needs: verify
-    if: secrets.PYPI_API_TOKEN != ''
+    env:
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+    if: ${{ env.PYPI_API_TOKEN != '' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - name: Download distribution artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           name: release-py-dist
           path: dist
@@ -142,4 +144,4 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          password: ${{ env.PYPI_API_TOKEN }}
