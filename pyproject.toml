@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61", "setuptools-scm>=8"]
+requires = ["setuptools>=77", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,10 +7,17 @@ name = "rsi-versioner"
 dynamic = ["version"]
 description = "GUI tool to swap Star Citizen LIVE/PTU folders under a safe path allowlist"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = [
     "platformdirs>=4.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/hugsndnugs/rsi-versioner"
+Repository = "https://github.com/hugsndnugs/rsi-versioner"
+Issues = "https://github.com/hugsndnugs/rsi-versioner/issues"
 
 [project.optional-dependencies]
 dev = [
@@ -27,7 +34,7 @@ rsi-versioner-gui = "rsi_versioner.gui:run_gui"
 where = ["src"]
 
 [tool.setuptools_scm]
-fallback_version = "0.1.0"
+fallback_version = "1.0.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

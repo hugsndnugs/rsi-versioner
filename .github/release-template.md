@@ -1,6 +1,8 @@
 ## Summary
 
-- <!-- Add 1-3 bullets about user-visible changes -->
+- First stable (1.0) release: swap LIVE ↔ PTU under the game root with allowlist checks, dry run/preview, one-step undo, and rotating logs.
+- Windows-first: portable `rsi-versioner.exe`, installer, and documented Program Files / elevation guidance.
+- Source installs via `pip` / setuptools-scm versioning; see `LICENSE` (MIT).
 
 ## Artifacts
 
