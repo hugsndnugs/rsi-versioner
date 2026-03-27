@@ -4,7 +4,8 @@
 # - https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 # - https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
 # - https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions
-# PyPI (optional): https://github.com/pypa/gh-action-pypi-publish
+# PyPI: upload wheels/sdist from release assets manually or add a trusted-publishing workflow;
+# GitHub disallows `secrets` in `if:` so optional token-gated jobs are non-obvious here.
 
 name: Release
 
@@ -127,22 +128,3 @@ jobs:
           files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  pypi:
-    needs: verify
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Download distribution artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: release-py-dist
-          path: dist
-
-      # secrets context is not valid in job-level `if`; gate the publish step only.
-      - name: Publish to PyPI
-        if: ${{ secrets.PYPI_API_TOKEN != '' }}
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
