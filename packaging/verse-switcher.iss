@@ -1,16 +1,16 @@
-#define MyAppName "RSI Versioner"
-#define MyAppExeName "rsi-versioner.exe"
+#define MyAppName "Verse Switcher"
+#define MyAppExeName "verse-switcher.exe"
 
 [Setup]
-AppId={{B4B94EE1-73A8-4B76-9AA3-0A8D03A98ED2}
+AppId={{A34A5B88-EE44-4A5D-B11B-9D307399CF62}
 AppName={#MyAppName}
 AppVersion={#GetEnv("RSI_VERSION")}
-AppPublisher=RSI Versioner Contributors
-DefaultDirName={localappdata}\Programs\RSI Versioner
+AppPublisher=Verse Switcher Contributors
+DefaultDirName={localappdata}\Programs\Verse Switcher
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir={#GetEnv("RSI_OUTPUT_DIR")}
-OutputBaseFilename=rsi-versioner-setup
+OutputBaseFilename=verse-switcher-setup
 Compression=lzma
 SolidCompression=yes
 ArchitecturesAllowed=x64compatible

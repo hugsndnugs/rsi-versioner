@@ -6,8 +6,8 @@ param(
 
 function Find-InstalledExe {
     $candidates = @(
-        (Join-Path $env:LOCALAPPDATA "Programs\RSI Versioner\rsi-versioner.exe"),
-        (Join-Path $PSScriptRoot "..\dist\rsi-versioner.exe")
+        (Join-Path $env:LOCALAPPDATA "Programs\Verse Switcher\verse-switcher.exe"),
+        (Join-Path $PSScriptRoot "..\dist\verse-switcher.exe")
     )
     foreach ($path in $candidates) {
         $resolved = [System.IO.Path]::GetFullPath($path)
@@ -20,15 +20,15 @@ function Find-InstalledExe {
 
 function Resolve-ReleaseAssetUrl([string]$RequestedVersion) {
     if ($RequestedVersion -eq "latest") {
-        return "https://github.com/hugsndnugs/rsi-versioner/releases/latest/download/rsi-versioner-setup.exe"
+        return "https://github.com/hugsndnugs/rsi-versioner/releases/latest/download/verse-switcher-setup.exe"
     }
-    return "https://github.com/hugsndnugs/rsi-versioner/releases/download/$RequestedVersion/rsi-versioner-setup.exe"
+    return "https://github.com/hugsndnugs/rsi-versioner/releases/download/$RequestedVersion/verse-switcher-setup.exe"
 }
 
 function Install-FromRelease([string]$RequestedVersion) {
-    $tempDir = Join-Path $env:TEMP "rsi-versioner-bootstrap"
+    $tempDir = Join-Path $env:TEMP "verse-switcher-bootstrap"
     New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
-    $installerPath = Join-Path $tempDir "rsi-versioner-setup.exe"
+    $installerPath = Join-Path $tempDir "verse-switcher-setup.exe"
     $url = Resolve-ReleaseAssetUrl -RequestedVersion $RequestedVersion
     Write-Host "Downloading installer from $url"
     Invoke-WebRequest -Uri $url -OutFile $installerPath
@@ -41,13 +41,13 @@ function Install-FromRelease([string]$RequestedVersion) {
 
 $exePath = Find-InstalledExe
 if (-not $exePath) {
-    Write-Host "RSI Versioner not found. Installing..."
+    Write-Host "Verse Switcher not found. Installing..."
     Install-FromRelease -RequestedVersion $Version
     $exePath = Find-InstalledExe
 }
 
 if (-not $exePath) {
-    throw "Install completed but rsi-versioner.exe was not found."
+    throw "Install completed but verse-switcher.exe was not found."
 }
 
 Write-Host "Launching: $exePath"

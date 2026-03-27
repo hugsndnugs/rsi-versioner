@@ -1,6 +1,8 @@
-# RSI LIVE / PTU versioner
+# Verse Switcher
 
 [![CI](https://github.com/hugsndnugs/rsi-versioner/actions/workflows/ci.yml/badge.svg)](https://github.com/hugsndnugs/rsi-versioner/actions/workflows/ci.yml)
+
+Switch builds without the headache.
 
 Small Python GUI for swapping which Star Citizen build folder the RSI Launcher uses by renaming the **LIVE** and **PTU** directories under your **game root** (the folder that contains those two names as direct children).
 
@@ -8,16 +10,16 @@ Small Python GUI for swapping which Star Citizen build folder the RSI Launcher u
 
 If you downloaded the repo or release bundle, double-click:
 
-- `Run-RSI-Versioner.cmd`
+- `Run-Verse-Switcher.cmd`
 
-That launcher calls `scripts/Install-or-Run.ps1`, which installs RSI Versioner if needed and then opens the app.
+That launcher calls `scripts/Install-or-Run.ps1`, which installs Verse Switcher if needed and then opens the app.
 
 ## Downloads (v1+)
 
 Each GitHub release publishes:
 
-- `rsi-versioner.exe` (portable single-file app)
-- `rsi-versioner-setup.exe` (installer)
+- `verse-switcher.exe` (portable single-file app)
+- `verse-switcher-setup.exe` (installer)
 - `SHA256SUMS.txt` (checksums)
 
 ## Install
@@ -31,19 +33,19 @@ Optional dev dependencies: `pip install .[dev]`
 ## Run
 
 ```bash
-rsi-versioner-gui
+verse-switcher-gui
 ```
 
 Or:
 
 ```bash
-python -m rsi_versioner
+python -m verse_switcher
 ```
 
 Portable release artifact:
 
 ```powershell
-.\rsi-versioner.exe
+.\verse-switcher.exe
 ```
 
 ## Defaults and permissions
@@ -84,7 +86,7 @@ After a successful **non-dry** swap, the app stores a one-step undo record (reso
 
 ## Logging
 
-Operations (preview, swap, undo) are appended to a **rotating log file** under the OS log directory for `rsi-versioner` (see [platformdirs](https://pypi.org/project/platformdirs/) `user_log_dir`), file name `rsi_versioner.log`. Use **Open log folder** in the GUI to open that directory. Timestamps are logged in UTC.
+Operations (preview, swap, undo) are appended to a **rotating log file** under the OS log directory for `verse-switcher` (see [platformdirs](https://pypi.org/project/platformdirs/) `user_log_dir`), file name `verse_switcher.log`. Use **Open log folder** in the GUI to open that directory. Timestamps are logged in UTC.
 
 ## Tests
 

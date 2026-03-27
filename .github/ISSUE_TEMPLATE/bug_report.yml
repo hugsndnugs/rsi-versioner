@@ -28,7 +28,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: rsi-versioner version
-      description: Output of `python -c "import rsi_versioner; print(rsi_versioner.__version__)"` or note if unknown.
+      label: verse-switcher version
+      description: Output of `python -c "import verse_switcher; print(verse_switcher.__version__)"` or note if unknown.
     validations:
       required: false

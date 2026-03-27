@@ -3,14 +3,14 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
-$portableExe = Join-Path $repoRoot "dist\rsi-versioner.exe"
+$portableExe = Join-Path $repoRoot "dist\verse-switcher.exe"
 if (-not (Test-Path $portableExe)) {
     throw "Portable executable not found at $portableExe. Run scripts/build_portable.ps1 first."
 }
 
-$version = (python -c "from importlib.metadata import version; print(version('rsi-versioner'))").Trim()
+$version = (python -c "from importlib.metadata import version; print(version('verse-switcher'))").Trim()
 $outputDir = Join-Path $repoRoot "dist"
-$issScript = Join-Path $repoRoot "packaging\rsi-versioner.iss"
+$issScript = Join-Path $repoRoot "packaging\verse-switcher.iss"
 
 $iscc = Get-Command "iscc.exe" -ErrorAction SilentlyContinue
 if (-not $iscc) {

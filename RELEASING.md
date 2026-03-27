@@ -1,12 +1,12 @@
-# Releasing RSI Versioner
+# Releasing Verse Switcher
 
 This project publishes a GitHub release when a tag matching `v*.*.*` is pushed.
 
 ## What gets published
 
 - Python source artifacts (`sdist`, `wheel`)
-- `rsi-versioner.exe` (portable Windows app)
-- `rsi-versioner-setup.exe` (Windows installer)
+- `verse-switcher.exe` (portable Windows app)
+- `verse-switcher-setup.exe` (Windows installer)
 - `SHA256SUMS.txt` (SHA256 for Windows binaries)
 
 ## Pre-release checklist
@@ -18,9 +18,9 @@ This project publishes a GitHub release when a tag matching `v*.*.*` is pushed.
    - `.\scripts\build_portable.ps1`
    - `.\scripts\build_installer.ps1`
 4. Smoke test:
-   - Launch `dist\rsi-versioner.exe`
-   - Install and launch via `dist\rsi-versioner-setup.exe`
-   - Launch via `Run-RSI-Versioner.cmd`
+   - Launch `dist\verse-switcher.exe`
+   - Install and launch via `dist\verse-switcher-setup.exe`
+   - Launch via `Run-Verse-Switcher.cmd`
 5. Update docs for user-visible changes (`README.md`, troubleshooting notes).
 
 ## Cut release

@@ -7,7 +7,7 @@ from pathlib import Path
 
 from platformdirs import user_config_dir
 
-APP_NAME = "rsi-versioner"
+APP_NAME = "verse-switcher"
 CONFIG_FILENAME = "config.json"
 
 

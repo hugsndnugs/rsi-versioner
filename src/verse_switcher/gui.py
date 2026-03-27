@@ -8,8 +8,8 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
-from rsi_versioner import config as cfg
-from rsi_versioner.core import (
+from verse_switcher import config as cfg
+from verse_switcher.core import (
     LivePtuState,
     describe_detection,
     detect_live_ptu,
@@ -21,8 +21,8 @@ from rsi_versioner.core import (
     swap_live_ptu,
     validate_undo_expected_state,
 )
-from rsi_versioner.logging_config import log_file_path, LOGGER_NAME
-from rsi_versioner.undo_state import (
+from verse_switcher.logging_config import log_file_path, LOGGER_NAME
+from verse_switcher.undo_state import (
     UndoRecord,
     clear_undo_record,
     load_undo_record,
@@ -55,16 +55,19 @@ def _purge_stale_undo() -> None:
         clear_undo_record()
 
 
-class RsiVersionerApp(tk.Tk):
+class VerseSwitcherApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("RSI LIVE / PTU versioner")
+        self.title("Verse Switcher")
         self.minsize(520, 460)
         self._config = cfg.load_config()
         _purge_stale_undo()
 
         main = ttk.Frame(self, padding=10)
         main.pack(fill=tk.BOTH, expand=True)
+        ttk.Label(main, text="Switch builds without the headache.").pack(
+            anchor=tk.W, pady=(0, 8)
+        )
 
         ttk.Label(main, text="Game root (folder containing LIVE / PTU):").pack(
             anchor=tk.W
@@ -587,8 +590,8 @@ class RsiVersionerApp(tk.Tk):
 
 
 def run_gui() -> None:
-    from rsi_versioner.logging_config import configure_logging
+    from verse_switcher.logging_config import configure_logging
 
     configure_logging()
-    app = RsiVersionerApp()
+    app = VerseSwitcherApp()
     app.mainloop()

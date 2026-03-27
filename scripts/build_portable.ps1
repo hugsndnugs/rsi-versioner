@@ -5,7 +5,7 @@ Set-Location $repoRoot
 
 python -m pip install -e ".[build]"
 
-$version = (python -c "from importlib.metadata import version; print(version('rsi-versioner'))").Trim()
+$version = (python -c "from importlib.metadata import version; print(version('verse-switcher'))").Trim()
 $distDir = Join-Path $repoRoot "dist"
 $buildDir = Join-Path $repoRoot "build\pyinstaller"
 
@@ -22,10 +22,10 @@ python -m PyInstaller `
   --clean `
   --onefile `
   --windowed `
-  --name "rsi-versioner" `
+  --name "verse-switcher" `
   --distpath "$distDir" `
   --workpath "$buildDir" `
   --specpath "$buildDir" `
-  "src/rsi_versioner/__main__.py"
+  "src/verse_switcher/__main__.py"
 
-Write-Host "Portable build complete: dist/rsi-versioner.exe (version $version)"
+Write-Host "Portable build complete: dist/verse-switcher.exe (version $version)"

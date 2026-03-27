@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from rsi_versioner.core import (
+from verse_switcher.core import (
     DetectionResult,
     LivePtuState,
     pattern_usable_as_game_root,

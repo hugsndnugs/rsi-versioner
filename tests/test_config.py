@@ -4,11 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from rsi_versioner.config import AppConfig, load_config, save_config
+from verse_switcher.config import AppConfig, load_config, save_config
 
 
 def test_save_load_roundtrip(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    import rsi_versioner.config as c
+    import verse_switcher.config as c
 
     monkeypatch.setattr(c, "user_config_dir", lambda *a, **k: str(tmp_path))
     cfg = AppConfig(game_root="D:/games/StarCitizen", allow_patterns=["D:/games/*"])
@@ -21,7 +21,7 @@ def test_save_load_roundtrip(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
 def test_load_corrupt_returns_default(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    import rsi_versioner.config as c
+    import verse_switcher.config as c
 
     monkeypatch.setattr(c, "user_config_dir", lambda *a, **k: str(tmp_path))
     p = tmp_path / "config.json"

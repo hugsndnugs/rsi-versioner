@@ -3,9 +3,9 @@ requires = ["setuptools>=77", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rsi-versioner"
+name = "verse-switcher"
 dynamic = ["version"]
-description = "GUI tool to swap Star Citizen LIVE/PTU folders under a safe path allowlist"
+description = "Switch builds without the headache. GUI tool to swap Star Citizen LIVE/PTU folders safely."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -28,7 +28,7 @@ build = [
 ]
 
 [project.scripts]
-rsi-versioner-gui = "rsi_versioner.gui:run_gui"
+verse-switcher-gui = "verse_switcher.gui:run_gui"
 
 [tool.setuptools.packages.find]
 where = ["src"]

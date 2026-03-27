@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from rsi_versioner.core import (
+from verse_switcher.core import (
     LivePtuState,
     detect_live_ptu,
     path_matches_allowlist,

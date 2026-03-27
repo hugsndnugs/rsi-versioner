@@ -7,9 +7,9 @@ from pathlib import Path
 
 from platformdirs import user_log_dir
 
-APP_NAME = "rsi-versioner"
-LOG_FILENAME = "rsi_versioner.log"
-LOGGER_NAME = "rsi_versioner"
+APP_NAME = "verse-switcher"
+LOG_FILENAME = "verse_switcher.log"
+LOGGER_NAME = "verse_switcher"
 
 
 class UtcIsoFormatter(logging.Formatter):
@@ -32,7 +32,7 @@ def configure_logging(
     backup_count: int = 5,
 ) -> Path:
     """
-    Attach a rotating file handler to the rsi_versioner logger. Safe to call once;
+    Attach a rotating file handler to the verse_switcher logger. Safe to call once;
     subsequent calls return the log path without adding duplicate handlers.
     """
     base = log_dir if log_dir is not None else log_dir_path()

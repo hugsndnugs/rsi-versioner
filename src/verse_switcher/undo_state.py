@@ -6,9 +6,9 @@ from pathlib import Path
 
 from platformdirs import user_config_dir
 
-from rsi_versioner.core import LivePtuState
+from verse_switcher.core import LivePtuState
 
-APP_NAME = "rsi-versioner"
+APP_NAME = "verse-switcher"
 UNDO_FILENAME = "undo.json"
 
 

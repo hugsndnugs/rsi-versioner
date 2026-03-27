@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-from rsi_versioner.core import (
+from verse_switcher.core import (
     DetectionResult,
     LivePtuState,
     paths_equal,
     validate_undo_expected_state,
 )
-from rsi_versioner.logging_config import LOGGER_NAME, configure_logging
-from rsi_versioner.undo_state import UndoRecord, clear_undo_record, load_undo_record, save_undo_record
+from verse_switcher.logging_config import LOGGER_NAME, configure_logging
+from verse_switcher.undo_state import UndoRecord, clear_undo_record, load_undo_record, save_undo_record
 
 
 @pytest.fixture(autouse=True)
@@ -49,7 +49,7 @@ def test_configure_logging_writes_file(tmp_path: Path) -> None:
     configure_logging(log_dir=tmp_path)
     log = logging.getLogger(LOGGER_NAME)
     log.info("event=test_swap root=/tmp/x dry_run=False ok=True action=rename msg=ok")
-    log_file = tmp_path / "rsi_versioner.log"
+    log_file = tmp_path / "verse_switcher.log"
     assert log_file.is_file()
     text = log_file.read_text(encoding="utf-8")
     assert "event=test_swap" in text
@@ -57,7 +57,7 @@ def test_configure_logging_writes_file(tmp_path: Path) -> None:
 
 
 def test_undo_record_roundtrip(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    import rsi_versioner.undo_state as u
+    import verse_switcher.undo_state as u
 
     monkeypatch.setattr(u, "user_config_dir", lambda *a, **k: str(tmp_path))
     clear_undo_record()
