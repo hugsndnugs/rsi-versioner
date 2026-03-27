@@ -130,7 +130,6 @@ jobs:
 
   pypi:
     needs: verify
-    if: ${{ secrets.PYPI_API_TOKEN != '' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -141,7 +140,9 @@ jobs:
           name: release-py-dist
           path: dist
 
+      # secrets context is not valid in job-level `if`; gate the publish step only.
       - name: Publish to PyPI
+        if: ${{ secrets.PYPI_API_TOKEN != '' }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
