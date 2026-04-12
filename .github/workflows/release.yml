@@ -122,7 +122,7 @@ jobs:
           path: release-assets
 
       - name: Create GitHub Release and upload assets
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body_path: .github/release-template.md
           files: release-assets/*
