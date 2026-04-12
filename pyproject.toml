@@ -21,7 +21,7 @@ Issues = "https://github.com/hugsndnugs/rsi-versioner/issues"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
+    "pytest>=9.0.3",
 ]
 build = [
     "pyinstaller>=6.0",
